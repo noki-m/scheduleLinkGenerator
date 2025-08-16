@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Schedule Link Generator</title>
+  
+  <link rel="icon" type="image/png" href="/img/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
+  <link rel="shortcut icon" href="/img/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="MyWebSite" />
+  <link rel="manifest" href="/img/site.webmanifest" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=IBM+Plex+Sans+JP:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📅 Schedule Link Generator</h1>
+      <p class="subtitle">テキストからカレンダーに登録するショートカットURLを作るやつ</p>
+      
+      <div class="header-controls">
+        <div class="file-input-wrapper">
+          <input type="file" id="fileInput" accept=".txt" />
+          <label for="fileInput" class="file-input-label">📁 ファイル選択</label>
+        </div>
+        
+        <button class="tips-toggle" onclick="toggleTips()">
+          💡 data.txt の書き方
+        </button>
+        
+        <div id="tipsContent" class="tips-content">
+          <div class="tips-text">
+            <p><strong>📝 フォーマット：</strong></p>
+            <pre>
+-グループ名
+日付T開始時間-終了時間,タイトル,詳細,場所</pre>
+
+            <p><strong>📋 例：</strong></p>
+            <pre>
+-ライブ
+20250518T1200-1400,ライブ,開場11:00 開演12:00,幕張
+0712T1730-2130,ツアー,グッズ物販11:00\nCD物販13:00,横浜
+
+-映画
+2025-1103,上映会,特別上映,東京</pre>
+
+            <p><strong>📌 説明：</strong></p>
+            <ul>
+              <li><strong>グループ名：</strong> 行頭に「-」</li>
+              <li><strong>日付：</strong> YYYYMMDD or MMDD, 適当にハイフンを入れてもOK,  例: 20250923 or 0923 -> 2025/9/23</li>
+              <li><strong>開始時間：</strong> 「T」のあとHHMM, 省略可（省略した場合、Googleカレンダーでは終日扱い）, 例: T1400-1600 -> 14:00~16:00</li>
+              <li><strong>終了時間：</strong> HHMM, 省略可（省略した場合、開始時間の1時間後）</li>
+              <li><strong>詳細：</strong> 改行は「\n」, 省略可</li>
+            </ul>
+            
+            <p><strong>⚠️ 他：</strong></p>
+            <ul>
+              <li>文字コードはUTF-8</li>
+              <li>各項目にカンマが含まれる場合は注意</li>
+              <li>Todoist の場合、終了時間はタイトルの次行・詳細は終了時間の次行に追記される</li>
+              <li>日付は適当に省略したりハイフンを入れても大丈夫 (YYYYMMDD, YYYY-MMDD, YYYY-MM-DD, YYYYMM-DD, MMDD)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div id="container">
+      <div class="loading-message">📅 読み込み中...</div>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
